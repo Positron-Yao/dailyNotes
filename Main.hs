@@ -44,11 +44,13 @@ main = do
                 \      \x1B[33;2m-\x1B[0m\x1B[32m glow | g: 使用glow打开diary/目录\n\x1B[0m"
             2 -> do
                 putStrLn "\x1B[34mdiary/目录下的文件: \x1B[0m"
-                fs_ <- getDirectoryContents "diary"
-                let fs = map (\x -> if x == todayStr ++ ".md"
-                    then "  \x1B[33;2m-\x1B[0m\x1B[32m " ++ x ++ "\x1B[0m\n" 
-                    else "  \x1B[33;2m-\x1B[32m "        ++ x ++ "\x1B[0m\n") $ filter (\x -> (x/=".") && (x/="..")) fs_
-                putStrLn $ concat fs
+                system $ "eza diary -hl -" ++ "-reverse -s modified"
+                return ()
+--                fs_ <- getDirectoryContents "diary"
+--                let fs = map (\x -> if x == todayStr ++ ".md"
+--                    then "  \x1B[33;2m-\x1B[0m\x1B[32m " ++ x ++ "\x1B[0m\n" 
+--                    else "  \x1B[33;2m-\x1B[32m "        ++ x ++ "\x1B[0m\n") $ filter (\x -> (x/=".") && (x/="..")) fs_
+--                putStrLn $ concat fs
             3 -> do
                 system $ "glow ./diary"
                 return ()
