@@ -26,6 +26,8 @@ main = do
             "l"    -> return 2
             "g"    -> return 3
             "glow" -> return 3
+            "m"    -> return 4
+            "main" -> return 4
 
         case argCode of
             0 -> do 
@@ -41,7 +43,8 @@ main = do
                 \      \x1B[33;2m-\x1B[0m\x1B[32m help | h: 显示此文档\n\
                 \      \x1B[33;2m-\x1B[0m\x1B[32m dir  | d: 显示日记文件目录位置\n\
                 \      \x1B[33;2m-\x1B[0m\x1B[32m list | l: 显示文件列表\n\
-                \      \x1B[33;2m-\x1B[0m\x1B[32m glow | g: 使用glow打开diary/目录\n\x1B[0m"
+                \      \x1B[33;2m-\x1B[0m\x1B[32m glow | g: 使用glow打开diary/目录\n\
+                \      \x1B[33;2m-\x1B[0m\x1B[32m glow | m: 打开main.md\n\x1B[0m"
             2 -> do
                 putStrLn "\x1B[34mdiary/目录下的文件: \x1B[0m"
                 system $ "eza diary -hl -" ++ "-reverse -s modified"
@@ -53,6 +56,9 @@ main = do
 --                putStrLn $ concat fs
             3 -> do
                 system $ "glow ./diary"
+                return ()
+            4 -> do
+                system $ "nvim " ++ pwd ++ "diary/main.md"
                 return ()
             
     else do
