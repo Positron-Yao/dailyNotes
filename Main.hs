@@ -4,7 +4,7 @@ import System.Directory
 import System.Environment
 import Data.Time
 
-pwd = "/home/positron/coding/haskell/dailyNotes/"
+pwd = "/home/positron/coding/haskell/projects/dailyNotes/"
 
 main :: IO ()
 main = do
