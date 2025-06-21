@@ -4,6 +4,7 @@ import System.Directory
 import System.Environment
 import Data.Time
 
+pwd :: String
 pwd = "/home/positron/coding/haskell/projects/dailyNotes/"
 
 main :: IO ()
@@ -11,31 +12,32 @@ main = do
     -- 设置工作目录
     setCurrentDirectory pwd
     -- 获取今天日期
-    today <- getCurrentTime >>=  \t -> return $ utctDay t
+    -- byd我用了半年了才发现忘了+8了草
+    today <- getCurrentTime >>=  \t -> return $ utctDay $ addUTCTime (8*3600) t
     let todayStr = show today
     -- 分析命令行参数
     args <- getArgs 
-    if length args > 0 then do
+    if not (null args) then do
         let arg = head args
         argCode <- case arg of
-            "d"    -> return 0
-            "dir"  -> return 0
-            "h"    -> return 1
-            "help" -> return 1
-            "l"    -> return 2
-            "list" -> return 2
-            "g"    -> return 3
-            "glow" -> return 3
-            "m"    -> return 4
-            "main" -> return 4
-            "t"    -> return 5
-            "todo" -> return 5
-            _      -> return 1
+            "d"    -> return 0 :: IO Int
+            "dir"  -> return 0 :: IO Int
+            "h"    -> return 1 :: IO Int
+            "help" -> return 1 :: IO Int
+            "l"    -> return 2 :: IO Int
+            "list" -> return 2 :: IO Int
+            "g"    -> return 3 :: IO Int
+            "glow" -> return 3 :: IO Int
+            "m"    -> return 4 :: IO Int
+            "main" -> return 4 :: IO Int
+            "t"    -> return 5 :: IO Int
+            "todo" -> return 5 :: IO Int
+            _      -> return 1 :: IO Int
 
         case argCode of
             0 -> do 
                 let fp = pwd ++ "diary/"
-                system $ "echo " ++ fp ++ "| xclip -sel clip"
+                _ <- system $ "echo " ++ fp ++ "| xclip -sel clip"
                 putStrLn $ "\x1B[34m文件目录: " ++ fp ++  "\n\x1B[33m已复制到剪贴板~\x1B[0m"
 
             1 -> putStrLn "\n\x1B[34m# diaryNotes: 命令行快速笔记工具\n\
@@ -50,7 +52,7 @@ main = do
                 \      \x1B[33;2m-\x1B[0m\x1B[32m glow | m: 打开main.md\n\x1B[0m"
             2 -> do
                 putStrLn "\x1B[34mdiary/目录下的文件: \x1B[0m"
-                system $ "eza diary -hl -" ++ "-reverse -s modified"
+                _ <- system $ "eza diary -hl -" ++ "-reverse -s modified"
                 return ()
 --                fs_ <- getDirectoryContents "diary"
 --                let fs = map (\x -> if x == todayStr ++ ".md"
@@ -58,15 +60,16 @@ main = do
 --                    else "  \x1B[33;2m-\x1B[32m "        ++ x ++ "\x1B[0m\n") $ filter (\x -> (x/=".") && (x/="..")) fs_
 --                putStrLn $ concat fs
             3 -> do
-                system $ "glow ./diary"
+                _ <- system "glow ./diary"
                 return ()
             4 -> do
-                system $ "nvim " ++ pwd ++ "diary/main.md"
+                _ <- system $ "nvim " ++ pwd ++ "diary/main.md"
                 return ()
             5 -> do 
                 homeD <- getHomeDirectory
-                system $ "nvim " ++ homeD ++ "/todo.md"
+                _ <- system $ "nvim " ++ homeD ++ "/todo.md"
                 return ()
+            _ -> return ()
 
             
     else do
@@ -75,9 +78,9 @@ main = do
 
         doesDiaryExist <- doesDirectoryExist "diary"
         if not doesDiaryExist then do
-            system "mkdir diary"
+            _ <- system "mkdir diary"
             putStrLn "\x1B[31m未检测到diary/, 已创建文件夹\x1B[0m"
             return ()
         else putStrLn $ "\x1B[34m打开 " ++ todayStr ++ ".md ...\x1B[0m"
-        rawSystem "nvim" [pwd ++ "diary/" ++ (show today) ++ ".md"]
+        _ <- rawSystem "nvim" [pwd ++ "diary/" ++ show today ++ ".md"]
         return ()
