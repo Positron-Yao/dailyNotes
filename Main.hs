@@ -18,16 +18,19 @@ main = do
     if length args > 0 then do
         let arg = head args
         argCode <- case arg of
-            "dir"  -> return 0
             "d"    -> return 0
-            "help" -> return 1
+            "dir"  -> return 0
             "h"    -> return 1
-            "list" -> return 2
+            "help" -> return 1
             "l"    -> return 2
+            "list" -> return 2
             "g"    -> return 3
             "glow" -> return 3
             "m"    -> return 4
             "main" -> return 4
+            "t"    -> return 5
+            "todo" -> return 5
+            _      -> return 1
 
         case argCode of
             0 -> do 
@@ -60,6 +63,11 @@ main = do
             4 -> do
                 system $ "nvim " ++ pwd ++ "diary/main.md"
                 return ()
+            5 -> do 
+                homeD <- getHomeDirectory
+                system $ "nvim " ++ homeD ++ "/todo.md"
+                return ()
+
             
     else do
         -- 未输入参数时
