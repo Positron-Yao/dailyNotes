@@ -64,7 +64,7 @@ executable dailyNotes
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:directory, time, process,     base ^>=4.14.3.0
+    build-depends:directory, time, process,     base ^>=4.21.0.0
 
     -- Directories containing source files.
     hs-source-dirs:   app
