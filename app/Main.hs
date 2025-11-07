@@ -37,6 +37,7 @@ main = do
           "todo" -> return 5 :: IO Int
           "p"  -> return 6 :: IO Int
           "tmp"  -> return 6 :: IO Int
+          "ely"  -> return 7 :: IO Int
           _    -> return 1 :: IO Int
 
         case argCode of
@@ -77,6 +78,9 @@ main = do
             return ()
           6 -> do 
             _ <- system "nvim /tmp/tmp.md"
+            return ()
+          7 -> do
+            _ <- system $ "nvim " ++ pwd ++ "diary/sticks/你好，世界.md"
             return ()
           _ -> return ()
       _ -> return ()
