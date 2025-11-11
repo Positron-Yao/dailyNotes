@@ -80,7 +80,7 @@ main = do
             _ <- system "nvim /tmp/tmp.md"
             return ()
           7 -> do
-            _ <- system $ "nvim " ++ pwd ++ "diary/sticks/你好，世界.md"
+            _ <- system $ "nvim " ++ pwd ++ "diary/ely.md"
             return ()
           _ -> return ()
       _ -> return ()
